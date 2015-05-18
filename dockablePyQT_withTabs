@@ -29,6 +29,6 @@ class TestDialog(QtGui.QDialog):
         if cmds.dockControl('testDock', q=1, ex=1):
             cmds.deleteUI('testDock')        
         cmds.dockControl('testDock', area='left', allowedArea='left', content='testDialogControl', label='TestDock')        
-        cmds.control('testDialogControl', e=True, p=floatingLayout)
+        #cmds.control('testDialogControl', e=True, p=floatingLayout)
 test = TestDialog()
 test.show()
