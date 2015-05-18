@@ -1,0 +1,34 @@
+from PySide import QtGui
+
+import maya.cmds as cmds
+
+
+class TestDialog(QtGui.QDialog):
+    def __init__(self, parent=None):
+        super(TestDialog, self).__init__(parent)
+        self.setObjectName('testDialogControl')
+        self.setWindowTitle("Test window")
+        
+        self.__vlayout = QtGui.QVBoxLayout(self)
+        self.__button = QtGui.QPushButton('Test')
+        
+        self.__vlayout.addWidget(self.__button)
+
+        #self.__button.setLayout(self.__vlayout)
+        
+        self.__tabs =  QtGui.QTabWidget()
+        
+        self.__tab1 = QtGui.QWidget()
+        self.__tab2 = QtGui.QWidget()
+        
+        self.__vlayout.addWidget(self.__tabs)
+                
+        self.__tabs.addTab(self.__tab1,"Tab 1")
+        self.__tabs.addTab(self.__tab2,"Tab 2")
+    
+        if cmds.dockControl('testDock', q=1, ex=1):
+            cmds.deleteUI('testDock')        
+        cmds.dockControl('testDock', area='left', allowedArea='left', content='testDialogControl', label='TestDock')        
+        cmds.control('testDialogControl', e=True, p=floatingLayout)
+test = TestDialog()
+test.show()
