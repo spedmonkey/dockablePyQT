@@ -1,0 +1,55 @@
+from PySide import QtGui
+
+import maya.cmds as cmds
+
+
+class TestDialog(QtGui.QDialog):
+    def __init__(self, parent=None):
+        super(TestDialog, self).__init__(parent)
+        #layout
+        self.setObjectName('testDialogControl')
+        self.setWindowTitle("Test window")
+        self.__vlayout = QtGui.QVBoxLayout(self)
+        #label
+        self.amountLabel = QtGui.QLabel('Amount') 
+        self.__vlayout.addWidget(self.amountLabel)
+        self.amountLabel.setStyleSheet("QLabel { color: red; font-size: 11px; background-color: rgba(188, 188, 188, 50); border: 1px solid rgba(188, 188, 188, 250); }")
+
+        #text edit
+        self.le = QtGui.QLineEdit(self)
+        self.__vlayout.addWidget(self.le)
+
+        #buttons
+        self.__button = QtGui.QPushButton('Test')
+        self.__vlayout.addWidget(self.__button)
+        self.__button.pressed.connect(self.testcmd)
+
+        #tabs
+        self.__tabs =  QtGui.QTabWidget()       
+        self.__tab1 = QtGui.QWidget()
+        self.__tab2 = QtGui.QWidget()       
+        self.__vlayout.addWidget(self.__tabs)
+        self.__tabs.addTab(self.__tab1,"Tab 1")
+        self.__tabs.addTab(self.__tab2,"Tab 2")
+    
+        #comboBox
+        self.myComboList = ['This is a <b>QPushButton</b> widget', "yourShot"]
+        self.combo = QtGui.QComboBox(self)
+
+        
+        self.__vlayout.addWidget(self.combo)        
+
+        if cmds.dockControl('testDock', q=1, ex=1):
+            cmds.deleteUI('testDock')        
+        cmds.dockControl('testDock', area='right', allowedArea='right', content='testDialogControl', label='TestDock')
+
+
+
+
+    def testcmd(self):
+        print self.myComboList
+        self.myComboList.append (self.le.text())
+        [self.combo.addItem(i) for i in self.myComboList]
+
+test = TestDialog()
+test.show()
