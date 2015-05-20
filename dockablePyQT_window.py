@@ -1,6 +1,6 @@
 from PySide import QtGui
 
-import maya.cmds as cmds
+#import maya.cmds as cmds
 
 
 class TestDialog(QtGui.QDialog):
